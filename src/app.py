@@ -37,6 +37,12 @@ def handle_hello():
                      "family": members}
     return jsonify(response_body), 200
 
+@app.route("/members/<int:member_id>", methods=["GET"])
+def get_member():
+    return "Hello"
+
+
+
 
 
 # This only runs if `$ python src/app.py` is executed
