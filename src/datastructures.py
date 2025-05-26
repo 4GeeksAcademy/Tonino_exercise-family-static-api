@@ -43,16 +43,20 @@ class FamilyStructure:
     def add_member(self, member):
         ## You have to implement this method
         ## Append the member to the list of _members
-        pass
+        self._members.append(member)
+        return member
 
-    def delete_member(self, id):
-        ## You have to implement this method
-        ## Loop the list and delete the member with the given id
-        pass
+    def delete_member(self, member_id):
+        result = list(filter(lambda item: item["id"] == member_id, self._members))
+        if result:
+            self._members.remove(result[0])
+            return {"done": True} 
+        else: 
+            return "El miembro no existe"
 
     def get_member(self, member_id):
         result = list(filter(lambda item: item["id"] == member_id, self._members))
-        return result
+        return result[0]
 
     # This method is done, it returns a list with all the family members
     def get_all_members(self):

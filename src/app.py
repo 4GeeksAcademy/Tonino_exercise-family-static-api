@@ -28,7 +28,29 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
+@app.route("/members", methods=["POST"])
+def add_one_member():
+    data = request.get_json()
+    if not data:
+         return jsonify({"error": "No se proporcionaron datos"}), 400
+    
+    nuevo_member = {
+         
+                "id": jackson_family._generate_id(),
+                "first_name": data.get("first_name"),
+                "last_name": data.get("last_name"),
+                "age": data.get("age"),
+                "lucky_numbers": data.get("lucky_numbers")
+            
+    }
 
+    miembro_agregado = jackson_family.add_member(nuevo_member)
+
+    if miembro_agregado:
+        return jsonify(nuevo_member), 200
+    else:
+        return "El mienmbro no se pudo agregar", 400
+    
 @app.route('/members', methods=['GET'])
 def handle_hello():
     # This is how you can use the Family datastructure by calling its methods
@@ -40,6 +62,13 @@ def handle_hello():
 def get_one_member(member_id=None):
     member = jackson_family.get_member(member_id)
     return jsonify(member), 200
+
+@app.route("/members/<int:member_id>", methods=["DELETE"])
+def delete_member(member_id=None):
+    member_to_delete = jackson_family.delete_member(member_id)
+
+    return jsonify(member_to_delete), 200
+
 
 
 
